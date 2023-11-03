@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-TENDER</title>
+    <link rel="icon" href="{% static 'etender/img/logo.png' %}" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'etender/css/style.css' %}">
+</head>
+<body>
+<div class="header">
+    <!-- Верхняя часть страницы с логотипом, навигацией и регистрацией -->
+    <div class="container">
+        <div class="header-line">
+            <div class="header-logo">
+                <img src="{% static 'etender/img/logo.png' %}" draggable="false" alt="logo">
+                <a href="#">E-Tender</a>
+            </div>
+            <div class="nav">
+                {% for link in navigation_links %}
+                    <a href="{% url link.url %}">{{ link.title }}</a>
+                {% endfor %}
+            </div>
+            <div class="nav-reg">
+                {% for link in registration_links %}
+                    <a href="{{ link.url }}">{{ link.title }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="second-block">
+    <!-- Блок с изображением и текстом -->
+    <div class="image-container">
+        <img src="{% static 'etender/img/kyrgyzstan.png' %}" alt="Image">
+    </div>
+    <div class="text-container">
+        <h2>E-TENDER</h2>
+        <p>E-TENDER - это надежная платформа, обеспечивающая прозрачность и эффективность процесса госзакупок.</p>
+    </div>
+</div>
+<section class="section section--thirds">
+    <!-- Секция с блоками "Коммерческие закупки и тд" -->
+    <div class="container">
+        <div class="thirds">
+            {% for client in clients1 %}
+            <div class="third">
+                <div class="third__img">
+                    <img src="{% static client.image %}" alt="{{ client.alt }}">
+                </div>
+                <div class="third__content">
+                    <h3 class="third__title">{{ client.title }}</h3>
+                    <p class="third__text">{{ client.text }}</p>
+                    <button class="btn third__btn">В раздел</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<section class="section section--images">
+    <!-- Секция с изображениями и текстом -->
+    <div class="container">
+        <h2 class="section__title">Как работает электронный аукцион</h2>
+        <div class="images">
+            {% for image in auction_images %}
+                <div class="image">
+                    <img src="{% static image.url %}" alt="{{ image.alt }}">
+                    <p class="image__text">{{ image.text }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<section class="section section--services">
+    <!-- Секция с блоками "Как работать с базой государственных тендеров" -->
+    <div class="container">
+        <div class="services">
+            {% for service in tender_services %}
+                <div class="service" style="background-image: url('{% static service.background_image %}');">
+                    <div class="service__content">
+                        <h3 class="service__title">{{ service.title }}</h3>
+                        <button class="btn service__btn">Подробнее</button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<div class="section section--links">
+    <!-- Блок с полезными ссылками -->
+    <div class="container">
+        <div class="links">
+            <div class="links__left">
+                <h2 class="links__title">Полезные ссылки</h2>
+                <ul class="links__list">
+                    {% for link in useful_links %}
+                        <li class="links__item"><a href="{{ link.url }}">{{ link.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="links__right">
+                {% for button in links_buttons %}
+                    <div class="links__button"><a href="{{ button.url }}">{{ button.title }}</a></div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<section class="section section--clients">
+    <!-- Секция с логотипами клиентов -->
+    <div class="container">
+        <h2 class="section__title__six">Наши клиенты</h2>
+        <div class="clients">
+            {% for client in clients %}
+                <div class="client">
+                    <img src="{% static client.image %}" alt="{{ client.alt }}">
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<div class="footer">
+    <!-- Футер с контактами, картой и иконками соцсетей -->
+    <div class="container">
+        <div class="footer__content">
+            <div class="footer__inner">
+                <div class="footer__info">
+                    <div class="footer__title">
+                        Связаться с нами
+                    </div>
+                    <ul class="footer__list">
+                        <li class="footer__adress">Телефон: +996 (555) 55-55-55</li>
+                        <li class="footer__adress">Почта: OOP@gmail.com</li>
+                        <li class="footer__adress">Адрес: MYK, ул. Турусбекова, Бишкек</li>
+                    </ul>
+                </div>
+                <div class="footer__title">
+                    Карта
+                    <div class="footer__map">
+<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1462.149099287562!2d74.64535580134041!3d42.86654976165931!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sru!2skg!4v1699016905947!5m2!1sru!2skg" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>                    </div>
+                </div>
+                <div class="footer__title">
+                    Мы в соцсетях
+                    <div class="footer__block" id="doo">
+                        <div class="social">
+                            <a href="#" class="social__item">
+                                <img src="{% static 'etender/img/you.png' %}">
+                            </a>
+                            <a href="#" class="social__item">
+                                <img src="{% static 'etender/img/telegram.png' %}">
+                            </a>
+                            <a href="#" class="social__item">
+                                <img src="{% static 'etender/img/face.png' %}">
+                            </a>
+                            <a href="#" class="social__item">
+                                <img src="{% static 'etender/img/inst.png' %}">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Успешная регистрация</title>
+</head>
+<body>
+    <h1>Регистрация прошла успешно!</h1>
+    <p>Перенаправление через <span id="countdown">5</span> секунд</p>
+
+    <script>
+        let countdownElement = document.getElementById('countdown');
+        let countdown = 5;
+
+        let countdownInterval = setInterval(function(){
+            countdown--;
+            countdownElement.innerText = countdown;
+
+            if (countdown <= 0) {
+                clearInterval(countdownInterval);
+                window.location.href = "{% url 'home' %}";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
