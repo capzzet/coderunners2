@@ -1,3 +1,5 @@
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
@@ -5,20 +7,17 @@ from etender.models import *
 
 
 # Create your views here.
-
-def index(request):
-
-    navigation_links = [
-        {'url': 'registration', 'title': 'Объявления'},
-        {'url': 'registration', 'title': 'Планы'},
-        {'url': 'registration', 'title': 'Аукционы'},
-        {'url': 'registration', 'title': 'Контракты'},
-    ]
-
-    registration_links = [
+navigation_links = [
+    {'url': 'ads', 'title': 'Объявления'},
+    {'url': 'registration', 'title': 'Планы'},
+    {'url': 'registration', 'title': 'Аукционы'},
+    {'url': 'registration', 'title': 'Контракты'},
+]
+registration_links = [
         {'url': '#', 'title': 'Вход'},
         {'url': '#', 'title': 'Зарегистрироваться'},
     ]
+def index(request):
 
     clients1 = [
         {'image': 'etender/img/skyline.png', 'alt': 'Client 1', 'title': 'Коммерческие закупки', 'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'},
@@ -77,9 +76,13 @@ def index(request):
         'useful_links': useful_links,
         'links_buttons': links_buttons,
         'clients': clients,
+        'user': request.user,
     }
 
     return render(request, 'etender/html/index.html', context)
+
+
+from django.contrib.auth import authenticate, login
 
 
 def registration(request):
@@ -91,18 +94,47 @@ def registration(request):
         phone_number = request.POST['phone_number']
         email = request.POST['email']
 
+        user = User.objects.create_user(username=email, password=password, email=email, first_name=first_name, last_name=last_name)
         user_profile = UserProfile(
-            last_name=last_name,
-            first_name=first_name,
-            middle_name=middle_name,
-            password=password,
+            user=user,
             phone_number=phone_number,
-            email=email
         )
         user_profile.save()
 
+        login(request, user)
+
         return redirect('success')
+
     return render(request, 'etender/html/registration.html')
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('success')
+        else:
+            error_message = "Неверные учетные данные. Пожалуйста, попробуйте снова."
+            return render(request, 'etender/html/login.html', {'error_message': error_message})
+
+    if request.user.is_authenticated:
+        return redirect('success')
+
+    return render(request, 'etender/html/login.html')
+def logout_view(request):
+    logout(request)
+    return redirect('home')
+
 
 def success(request):
     return render(request, 'etender/html/success.html')
+
+def ads(request):
+    context = {
+        'navigation_links': navigation_links,
+        'registration_links': registration_links,
+    }
+    return render(request, 'etender/html/ads.html',context)
