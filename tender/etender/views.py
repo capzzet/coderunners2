@@ -3,12 +3,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
-from django.http import HttpResponse
+from django.db.models import F
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
-
+from django.template.loader import render_to_string
 from etender.forms import TenderForm
 from etender.models import *
-
+from django_filters import rest_framework as filters
 
 # Create your views here.
 navigation_links = [
@@ -136,12 +137,30 @@ def logout_view(request):
 def success(request):
     return render(request, 'etender/html/success.html')
 
+
+
+class TenderFilter(filters.FilterSet):
+    class Meta:
+        model = Tender
+        fields = {
+            'planned_amount': ['exact', 'lt', 'gt'],
+            'publication_date': ['exact', 'lt', 'gt'],
+        }
+
 def ads(request):
     sort_by = request.GET.get('sort_by')
-    if sort_by in ['planned_amount', 'publication_date']:
-        tenders = Tender.objects.all().order_by(sort_by)
-    else:
-        tenders = Tender.objects.all()
+    sort_direction = request.GET.get('sort_direction', 'asc')
+
+
+    tenders = Tender.objects.annotate(
+        sorted_planned_amount=F('planned_amount')
+    )
+
+    if sort_direction == 'desc':
+        sort_by = f'-{sort_by}'
+
+    tenders = tenders.order_by(sort_by) if sort_by else tenders
+
 
     items_per_page = 3
 
@@ -166,6 +185,11 @@ def ads(request):
     else:
         form = TenderForm()
 
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+
+        tender_list_html = render_to_string('etender/html/tender_list.html', {'tenders': page_obj})
+        return JsonResponse({'tender_list_html': tender_list_html})
+
     context = {
         'navigation_links': navigation_links,
         'registration_links': registration_links,
@@ -173,6 +197,7 @@ def ads(request):
         'form': form
     }
     return render(request, 'etender/html/ads.html', context)
+
 
 @login_required
 def add_tender(request):

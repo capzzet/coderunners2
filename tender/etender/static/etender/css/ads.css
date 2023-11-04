@@ -70,7 +70,9 @@ margin:20px 0px;
 }
 
 
-
+.pagi{
+text-align:center;
+padding:0 0 50px 0;}
 .ads-btn a {
     background-color: #008cbb;
     display: inline-block;
@@ -85,5 +87,47 @@ margin:20px 0px;
 }
 
 .ads-btn a:hover {
+    background-color: #02455c;
+}
+
+
+@media (max-width: 768px) {
+    .sort-options {
+        margin: 5% 0;
+    }
+}
+.sort-options{
+margin:0 0 50px 0}
+.sort-options label {
+    color: #16aacf;
+
+}
+
+.sort-options select {
+    width: 200px;
+    padding: 8px;
+    border: 1px solid #00cfff;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+    font-size: 16px;
+}
+
+.sort-options button {
+    background-color: #008cbb;
+    display: inline-block;
+    font-size: 14px;
+    color: white;
+    margin: 30px auto 0px;
+    border: 2px solid #008cbb;
+    padding: 10px 15px;
+    font-weight: 600;
+    transition: 0.5s;
+    border-radius: 10px;
+}
+
+.sort-options button:hover {
     background-color: #02455c;
 }

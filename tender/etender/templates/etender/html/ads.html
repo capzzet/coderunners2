@@ -9,9 +9,22 @@
     <section class="ads-section">
         <h2>Объявления тендеров</h2>
         <div class="sort-options">
-    <label><input type="radio" name="sort_by" value="planned_amount" {% if request.GET.sort_by == "planned_amount" %}checked{% endif %}> Сортировать по сумме</label>
-    <label><input type="radio" name="sort_by" value="publication_date" {% if request.GET.sort_by == "publication_date" %}checked{% endif %}> Сортировать по дате публикации</label>
-</div>
+            <form method="get">
+              <label for="sort_by">Сортировать по:</label>
+              <select id="sort_by" name="sort_by">
+                <option value="planned_amount">Планируемая сумма</option>
+                <option value="publication_date">Дата публикации</option>
+              </select>
+
+              <label for="sort_direction">Направление:</label>
+              <select id="sort_direction" name="sort_direction">
+                <option value="asc">По возрастанию</option>
+                <option value="desc">По убыванию</option>
+              </select>
+
+              <button type="submit" >Сортировать</button>
+            </form>
+        </div>
         <div class="tender-list">
             {% for tender in tenders %}
             <div class="tender">
@@ -45,8 +58,8 @@
             {% endfor %}
         </div>
     </section>
-
-<div class="pagination">
+<section class="pagi" >
+<div class="pagination" >
     {% if tenders.has_previous %}
         <a href="?page=1"><img src="{% static 'etender/img/point-left.png' %}" alt="First Page"></a>
         <a href="?page={{ tenders.previous_page_number }}"><img src="{% static 'etender/img/left.png' %}" alt="Previous Page"></a>
@@ -65,7 +78,7 @@
         <a href="?page={{ tenders.paginator.num_pages }}"><img src="{% static 'etender/img/point-right.png' %}" alt="Last Page"></a>
     {% endif %}
 </div>
-
+</section>
 
     {% if user.is_authenticated %}
      <div class="ads-btn">
@@ -75,15 +88,24 @@
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    var sortOptions = document.querySelectorAll('.sort-options input[type="radio"]');
+    document.getElementById('sort_button').addEventListener('click', function() {
+        var selectedSort = document.getElementById('sort_by').value;
+        var selectedDirection = document.getElementById('sort_direction').value;
 
-    sortOptions.forEach(function(option) {
-        option.addEventListener('change', function() {
-            var selectedSort = this.value;
-            window.location.href = '?sort_by=' + selectedSort;
-        });
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', window.location.href + '?sort_by=' + selectedSort + '&sort_direction=' + selectedDirection, true);
+
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                document.querySelector('.tender-list').innerHTML = xhr.responseText;
+            }
+        };
+
+        xhr.send();
     });
 });
+
 </script>
 
 
