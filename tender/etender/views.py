@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
@@ -133,8 +134,22 @@ def success(request):
     return render(request, 'etender/html/success.html')
 
 def ads(request):
+    tenders = [
+        {
+            'purchase_name': 'Приобретение услуг МЕДИА',
+            'purchase_method': 'Запрос котировок с квалификационными требованиями',
+            'purchase_number': '231104411071664',
+            'purchase_type': 'Услуги',
+            'organization_name': 'Секвестрация углерода',
+            'planned_amount': '900000',
+            'publication_date': '04 ноября 2023 13:55',
+            'proposal_deadline': '13 ноября 2023 09:00',
+        },
+        ]
+
     context = {
         'navigation_links': navigation_links,
         'registration_links': registration_links,
+        'tenders': tenders,
     }
     return render(request, 'etender/html/ads.html',context)

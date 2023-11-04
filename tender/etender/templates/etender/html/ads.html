@@ -1,22 +1,47 @@
 {% load static %}
 {% include 'etender/html/header.html' %}
 
+<link rel="stylesheet" type="text/css" href="{% static 'etender/css/ads.css' %}">
 
-    <div class="container">
+<div class="container">
+    <section class="ads-section">
         <h2>Объявления тендеров</h2>
         <div class="tender-list">
-            <!-- Здесь будут размещены объявления тендеров -->
+            {% for tender in tenders %}
             <div class="tender">
-                <h3>Название тендера 1</h3>
-                <p>Описание тендера 1...</p>
-                <a href="#">Подробнее</a>
+                <div class="tender-info">
+                    <div class="left-block">
+                        <h3>Наименование закупки:</h3>
+                        <h4>{{ tender.purchase_name }}</h4>
+
+                        <p class="tender-info-item">Метод закупки:</p>
+                        <h6>{{ tender.purchase_method }}</h6>
+                        <p class="tender-info-item">Номер закупки:</p>
+                        <h6>{{ tender.purchase_number }}</h6>
+                        <p class="tender-info-item">Вид закупок:</p>
+                        <h6>{{ tender.purchase_type }}</h6>
+                    </div>
+                    <div class="right-block">
+                        <h3>Наименование организации: </h3>
+                        <h4>{{ tender.organization_name }}</h4>
+                        <p class="tender-info-item">планируемая сумма:</p>
+                        <h6>{{ tender.planned_amount }}</h6>
+                        <p class="tender-info-item">дата опубликования:</p>
+                        <h6>{{ tender.publication_date }}</h6>
+                        <p class="tender-info-item">срок подачи предложений поставщиков:</p>
+                        <h6>{{ tender.proposal_deadline }}</h6>
+                    </div>
+                </div>
+                <div class="ads-btn">
+                    <a href="#" >Подробнее</a>
+                </div>
             </div>
-            <div class="tender">
-                <h3>Название тендера 2</h3>
-                <p>Описание тендера 2...</p>
-                <a href="#">Подробнее</a>
-            </div>
-            <!-- Добавьте еще объявления, если нужно -->
+            {% endfor %}
         </div>
+    </section>
+</div>
     </div>
+    </section>
+</div>
+
 {% include 'etender/html/footer.html' %}

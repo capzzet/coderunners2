@@ -20,7 +20,7 @@
         <div class="header-line">
             <div class="header-logo">
                 <img src="{% static 'etender/img/logo.png' %}" draggable="false" alt="logo">
-                <a href="#">E-Tender</a>
+                <a href="{% url 'home' %}">E-Tender</a>
             </div>
             <div class="nav">
                 {% for link in navigation_links %}
