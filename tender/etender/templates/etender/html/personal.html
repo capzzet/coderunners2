@@ -1,0 +1,23 @@
+{% load static %}
+{% include 'etender/html/header.html' %}
+<link rel="stylesheet" type="text/css" href="{% static 'etender/css/personal.css' %}">
+<div class="container">
+    <section class="pers-section">
+        <h2>Личный кабинет</h2>
+        <div class="content">
+            <h3>Добро пожаловать, {{ user.username }}!</h3>
+            <p>Здесь вы можете управлять своими тендерами и просматривать свою информацию.</p>
+            <a href="{% url 'edit_profile' %}" class="third__btn">Редактировать профиль</a>
+        </div>
+        <div class="tenders-section">
+            <h3>Ваши тендеры</h3>
+        </div>
+        <div class="actions-history">
+            <h3>История действий</h3>
+        </div>
+        <div class="notifications">
+            <h3>Уведомления</h3>
+        </div>
+    </section>
+</div>
+{% include 'etender/html/footer.html' %}

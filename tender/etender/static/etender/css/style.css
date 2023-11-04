@@ -80,6 +80,9 @@ h2{
 .nav-reg a:hover {
     background-color: #02455c;
 }
+.pers{
+background-color:#16aacf;
+}
 /* Стили для блока с изображением и текстом */
 .second-block {
     display: flex;

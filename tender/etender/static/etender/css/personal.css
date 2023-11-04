@@ -1,0 +1,9 @@
+.pers-section {
+    margin: 10% 0;
+}
+
+.tenders-section,
+.actions-history,
+.notifications {
+    margin-top: 30px;
+}

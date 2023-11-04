@@ -26,9 +26,11 @@
                 {% for link in navigation_links %}
                     <a href="{% url link.url %}">{{ link.title }}</a>
                 {% endfor %}
+
             </div>
             <div class="nav-reg">
                 {% if user.is_authenticated %}
+                    <a href="{% url 'personal' %}" class="pers" >Личный кабинет</a>
                     <a href="{% url 'logout' %}">Выйти</a>
                 {% else %}
                     <a href="{% url 'login' %}">Войти</a>

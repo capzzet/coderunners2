@@ -221,3 +221,12 @@ def add_tender(request):
         'registration_links': registration_links,
     }
     return render(request, 'etender/html/add_tender.html', context)
+
+def personal(request):
+    context = {
+        'navigation_links': navigation_links,
+        'registration_links': registration_links,
+    }
+    return render(request, 'etender/html/personal.html', context)
+def edit_profile(request):
+    return HttpResponse('edit')
