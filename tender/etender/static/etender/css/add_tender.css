@@ -1,0 +1,77 @@
+.add-section{
+    margin: 10% 0;
+}
+@media (max-width: 768px) {
+    .add-section {
+        margin: 5% 0;
+    }
+}label {
+    color: #16aacf;
+}
+
+input[type=text],
+input[type=email],
+input[type=tel],
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #00cfff;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+}
+
+option {
+    color: #e28a4e;
+}
+
+::placeholder {
+    color: #e28a4e;
+}
+
+.btns {
+    margin-top:2%;
+    display: flex;
+    justify-content: space-between;
+}
+
+input[type=submit],
+input[type=reset] {
+    background-color: #ffc769;
+    color: white;
+    padding: 7px 15px;
+    border: none;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: .2s linear;
+}
+
+input[type=submit]:hover,
+input[type=reset]:hover {
+    background-color: #e28a4e;
+}
+
+.custom-label {
+
+
+    margin: 10px 0;
+    display: block;
+}
+
+input[type="text"], input[type="email"], input[type="tel"], select {
+    width: calc(100% - 24px);
+    padding: 12px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+}
+
+input[type="text"], input[type="email"], input[type="tel"], select {
+    margin-top: 6px;
+}

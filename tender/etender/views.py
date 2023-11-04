@@ -1,9 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
+from etender.forms import TenderForm
 from etender.models import *
 
 
@@ -134,22 +136,59 @@ def success(request):
     return render(request, 'etender/html/success.html')
 
 def ads(request):
-    tenders = [
-        {
-            'purchase_name': 'Приобретение услуг МЕДИА',
-            'purchase_method': 'Запрос котировок с квалификационными требованиями',
-            'purchase_number': '231104411071664',
-            'purchase_type': 'Услуги',
-            'organization_name': 'Секвестрация углерода',
-            'planned_amount': '900000',
-            'publication_date': '04 ноября 2023 13:55',
-            'proposal_deadline': '13 ноября 2023 09:00',
-        },
-        ]
+    tenders = Tender.objects.all()
+
+    if request.method == 'POST':
+        form = TenderForm(request.POST)
+        if form.is_valid():
+
+            Tender.objects.create(
+                purchase_name=form.cleaned_data['purchase_name'],
+                purchase_method=form.cleaned_data['purchase_method'],
+                purchase_number=form.cleaned_data['purchase_number'],
+                purchase_type=form.cleaned_data['purchase_type'],
+                organization_name=form.cleaned_data['organization_name'],
+                planned_amount=form.cleaned_data['planned_amount'],
+                publication_date=form.cleaned_data['publication_date'],
+                proposal_deadline=form.cleaned_data['proposal_deadline']
+            )
+
+            return redirect('ads')
+
+    else:
+        form = TenderForm()
 
     context = {
         'navigation_links': navigation_links,
         'registration_links': registration_links,
         'tenders': tenders,
+        'form': form
     }
-    return render(request, 'etender/html/ads.html',context)
+    return render(request, 'etender/html/ads.html', context)
+
+@login_required
+def add_tender(request):
+    if request.method == 'POST':
+        form = TenderForm(request.POST)
+        if form.is_valid():
+            tender = Tender(
+                purchase_name=form.cleaned_data['purchase_name'],
+                purchase_method=form.cleaned_data['purchase_method'],
+                purchase_number=form.cleaned_data['purchase_number'],
+                purchase_type=form.cleaned_data['purchase_type'],
+                organization_name=form.cleaned_data['organization_name'],
+                planned_amount=form.cleaned_data['planned_amount'],
+                publication_date=form.cleaned_data['publication_date'],
+                proposal_deadline=form.cleaned_data['proposal_deadline']
+            )
+            tender.save()
+            return redirect('ads')
+    else:
+        form = TenderForm()
+
+    context = {
+        'form': form,
+        'navigation_links': navigation_links,
+        'registration_links': registration_links,
+    }
+    return render(request, 'etender/html/add_tender.html', context)

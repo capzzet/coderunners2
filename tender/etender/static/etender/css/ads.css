@@ -3,11 +3,10 @@
 }
 @media (max-width: 768px) {
     .ads-section {
-        margin: 5% 0; /* При ширине экрана менее 768px отступ будет 5% */
+        margin: 5% 0;
     }
 }
-h2{
-color:#008cbb}
+
 .tender h4{
     font-size: 22px;
     margin: 10px 0;
@@ -62,11 +61,10 @@ margin:10px 0;
 }
 .ads-btn {
 text-align: right;
-margin:20px 20px;
+margin:20px 0px;
 }
 
 .ads-btn a {
-
     background-color: #008cbb;
     display: inline-block;
     font-size: 18px;

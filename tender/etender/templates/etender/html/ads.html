@@ -39,6 +39,11 @@
             {% endfor %}
         </div>
     </section>
+    {% if user.is_authenticated %}
+     <div class="ads-btn">
+        <a href="{% url 'add_tender' %}">Добавить тендер</a>
+    </div>
+    {% endif %}
 </div>
     </div>
     </section>
