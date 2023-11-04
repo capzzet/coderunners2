@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
@@ -138,6 +139,12 @@ def success(request):
 def ads(request):
     tenders = Tender.objects.all()
 
+    items_per_page = 3
+
+    paginator = Paginator(tenders, items_per_page)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     if request.method == 'POST':
         form = TenderForm(request.POST)
         if form.is_valid():
@@ -161,7 +168,7 @@ def ads(request):
     context = {
         'navigation_links': navigation_links,
         'registration_links': registration_links,
-        'tenders': tenders,
+        'tenders': page_obj,
         'form': form
     }
     return render(request, 'etender/html/ads.html', context)

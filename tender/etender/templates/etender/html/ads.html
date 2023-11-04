@@ -39,14 +39,33 @@
             {% endfor %}
         </div>
     </section>
+
+<div class="pagination">
+    {% if tenders.has_previous %}
+        <a href="?page=1"><img src="{% static 'etender/img/point-left.png' %}" alt="First Page"></a>
+        <a href="?page={{ tenders.previous_page_number }}"><img src="{% static 'etender/img/left.png' %}" alt="Previous Page"></a>
+    {% endif %}
+
+    {% for num in tenders.paginator.page_range %}
+        {% if num == tenders.number %}
+            <span class="current-pager" style="font-size:20px;font-weight: bold;border: 1px solid #ccc;border-radius:50%;padding:5px 10px">{{ num }}</span>
+        {% else %}
+            <a href="?page={{ num }}" style="font-size:20px;font-weight: bold;border: 1px solid #ccc;border-radius:50%;padding:5px 10px">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if tenders.has_next %}
+        <a href="?page={{ tenders.next_page_number }}"><img src="{% static 'etender/img/right.png' %}" alt="Next Page"></a>
+        <a href="?page={{ tenders.paginator.num_pages }}"><img src="{% static 'etender/img/point-right.png' %}" alt="Last Page"></a>
+    {% endif %}
+</div>
+
+
     {% if user.is_authenticated %}
      <div class="ads-btn">
         <a href="{% url 'add_tender' %}">Добавить тендер</a>
     </div>
     {% endif %}
-</div>
-    </div>
-    </section>
 </div>
 
 {% include 'etender/html/footer.html' %}
