@@ -131,3 +131,46 @@ margin:0 0 50px 0}
 .sort-options button:hover {
     background-color: #02455c;
 }
+.custom-label {
+    color: #16aacf;
+    margin: 10px 0;
+    display: block;
+}
+
+.custom-input {
+    width: calc(70% - 24px);
+    padding: 12px;
+    border: 1px solid #00cfff;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 6px;
+
+
+}
+
+
+.custom-input::placeholder {
+    color: #e28a4e;
+}
+
+.tender-btn
+{
+text-align: right;
+margin:0 0 40px 0;
+
+}
+.tender-btn a {
+    background-color: #008cbb;
+    font-size: 18px;
+    color: white;
+    border: 2px solid #008cbb;
+    padding: 10px 20px;
+    font-weight: 600;
+    transition: 0.5s;
+    border-radius: 10px;
+}
+
+.tender-btn a:hover {
+    background-color: #02455c;
+}

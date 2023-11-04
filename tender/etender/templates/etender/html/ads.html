@@ -9,22 +9,24 @@
     <section class="ads-section">
         <h2>Объявления тендеров</h2>
         <div class="sort-options">
-            <form method="get">
-              <label for="sort_by">Сортировать по:</label>
-              <select id="sort_by" name="sort_by">
-                <option value="planned_amount">Планируемая сумма</option>
-                <option value="publication_date">Дата публикации</option>
-              </select>
+    <form method="get" id="filter_form">
+        <label for="sort_by">Сортировать по:</label><br>
+        <select id="sort_by" name="sort_by">
+            <option value="planned_amount">Планируемая сумма</option>
+            <option value="publication_date">Дата публикации</option>
+        </select>
 
-              <label for="sort_direction">Направление:</label>
-              <select id="sort_direction" name="sort_direction">
-                <option value="asc">По возрастанию</option>
-                <option value="desc">По убыванию</option>
-              </select>
+        <br><label for="sort_direction">Направление:</label><br>
+        <select id="sort_direction" name="sort_direction">
+            <option value="asc">По возрастанию</option>
+            <option value="desc">По убыванию</option>
+        </select>
+        <label for="search_input" class="custom-label">Поиск:</label>
+        <input type="text" id="search_input" name="q" class="custom-input">
+        <button type="submit"  >Искать</button>
+    </form>
+</div>
 
-              <button type="submit" >Сортировать</button>
-            </form>
-        </div>
         <div class="tender-list">
             {% for tender in tenders %}
             <div class="tender">
@@ -58,6 +60,11 @@
             {% endfor %}
         </div>
     </section>
+    {% if user.is_authenticated %}
+     <div class="tender-btn">
+        <a href="{% url 'add_tender' %}">Добавить тендер</a>
+    </div>
+    {% endif %}
 <section class="pagi" >
 <div class="pagination" >
     {% if tenders.has_previous %}
@@ -80,13 +87,30 @@
 </div>
 </section>
 
-    {% if user.is_authenticated %}
-     <div class="ads-btn">
-        <a href="{% url 'add_tender' %}">Добавить тендер</a>
-    </div>
-    {% endif %}
+
 </div>
+
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var searchForm = document.getElementById('search_form');
+    var tenderList = document.getElementById('tender_list');
+
+    searchForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var searchQuery = document.getElementById('search_input').value;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/ads/?q=' + searchQuery, true);
+
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                tenderList.innerHTML = xhr.responseText;
+            }
+        };
+
+        xhr.send();
+    });
+});
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('sort_button').addEventListener('click', function() {
         var selectedSort = document.getElementById('sort_by').value;

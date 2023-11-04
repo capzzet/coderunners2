@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
-from django.db.models import F
+from django.db.models import F, Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
@@ -148,21 +148,28 @@ class TenderFilter(filters.FilterSet):
         }
 
 def ads(request):
+    search_query = request.GET.get('q')
     sort_by = request.GET.get('sort_by')
     sort_direction = request.GET.get('sort_direction', 'asc')
-
+    items_per_page = request.GET.get('items_per_page', 3)
 
     tenders = Tender.objects.annotate(
         sorted_planned_amount=F('planned_amount')
     )
 
+    if search_query:
+        tenders = tenders.filter(
+            Q(purchase_name__icontains=search_query) |
+            Q(purchase_method__icontains=search_query) |
+            Q(organization_name__icontains=search_query)
+        )
+
     if sort_direction == 'desc':
-        sort_by = f'-{sort_by}'
+        sort_by = f'-{sort_by}' if sort_by else '-planned_amount'
+    else:
+        sort_by = sort_by if sort_by else 'planned_amount'
 
-    tenders = tenders.order_by(sort_by) if sort_by else tenders
-
-
-    items_per_page = 3
+    tenders = tenders.order_by(sort_by)
 
     paginator = Paginator(tenders, items_per_page)
     page_number = request.GET.get('page')
@@ -171,22 +178,12 @@ def ads(request):
     if request.method == 'POST':
         form = TenderForm(request.POST)
         if form.is_valid():
-            Tender.objects.create(
-                purchase_name=form.cleaned_data['purchase_name'],
-                purchase_method=form.cleaned_data['purchase_method'],
-                purchase_number=form.cleaned_data['purchase_number'],
-                purchase_type=form.cleaned_data['purchase_type'],
-                organization_name=form.cleaned_data['organization_name'],
-                planned_amount=form.cleaned_data['planned_amount'],
-                publication_date=form.cleaned_data['publication_date'],
-                proposal_deadline=form.cleaned_data['proposal_deadline']
-            )
+            Tender.objects.create(**form.cleaned_data)
             return redirect('ads')
     else:
         form = TenderForm()
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-
         tender_list_html = render_to_string('etender/html/tender_list.html', {'tenders': page_obj})
         return JsonResponse({'tender_list_html': tender_list_html})
 
@@ -194,11 +191,10 @@ def ads(request):
         'navigation_links': navigation_links,
         'registration_links': registration_links,
         'tenders': page_obj,
-        'form': form
+        'form': form,
+        'search_query': search_query
     }
     return render(request, 'etender/html/ads.html', context)
-
-
 @login_required
 def add_tender(request):
     if request.method == 'POST':
