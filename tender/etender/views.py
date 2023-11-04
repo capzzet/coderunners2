@@ -137,7 +137,11 @@ def success(request):
     return render(request, 'etender/html/success.html')
 
 def ads(request):
-    tenders = Tender.objects.all()
+    sort_by = request.GET.get('sort_by')
+    if sort_by in ['planned_amount', 'publication_date']:
+        tenders = Tender.objects.all().order_by(sort_by)
+    else:
+        tenders = Tender.objects.all()
 
     items_per_page = 3
 
@@ -148,7 +152,6 @@ def ads(request):
     if request.method == 'POST':
         form = TenderForm(request.POST)
         if form.is_valid():
-
             Tender.objects.create(
                 purchase_name=form.cleaned_data['purchase_name'],
                 purchase_method=form.cleaned_data['purchase_method'],
@@ -159,9 +162,7 @@ def ads(request):
                 publication_date=form.cleaned_data['publication_date'],
                 proposal_deadline=form.cleaned_data['proposal_deadline']
             )
-
             return redirect('ads')
-
     else:
         form = TenderForm()
 

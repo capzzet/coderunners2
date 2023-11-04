@@ -1,6 +1,7 @@
-.ads-section{
+.ads-section {
     margin: 10% 0;
 }
+
 @media (max-width: 768px) {
     .ads-section {
         margin: 5% 0;

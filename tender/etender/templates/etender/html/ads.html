@@ -3,9 +3,15 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'etender/css/ads.css' %}">
 
+
+
 <div class="container">
     <section class="ads-section">
         <h2>Объявления тендеров</h2>
+        <div class="sort-options">
+    <label><input type="radio" name="sort_by" value="planned_amount" {% if request.GET.sort_by == "planned_amount" %}checked{% endif %}> Сортировать по сумме</label>
+    <label><input type="radio" name="sort_by" value="publication_date" {% if request.GET.sort_by == "publication_date" %}checked{% endif %}> Сортировать по дате публикации</label>
+</div>
         <div class="tender-list">
             {% for tender in tenders %}
             <div class="tender">
@@ -67,5 +73,19 @@
     </div>
     {% endif %}
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var sortOptions = document.querySelectorAll('.sort-options input[type="radio"]');
+
+    sortOptions.forEach(function(option) {
+        option.addEventListener('change', function() {
+            var selectedSort = this.value;
+            window.location.href = '?sort_by=' + selectedSort;
+        });
+    });
+});
+</script>
+
+
 
 {% include 'etender/html/footer.html' %}
