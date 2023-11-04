@@ -385,7 +385,7 @@ h2{
 }
 /* Футер с контактами, картой и иконками соцсетей */
 .footer {
-    padding-top: 65px;
+    padding-top: 25px;
     background-color: #f8f8f8;
     text-align: center; 
 }
@@ -410,7 +410,7 @@ h2{
 }
 
 .footer__list {
-    padding-top: 30px;
+    padding-top: 10px;
 }
 
 .footer__list li {
@@ -433,7 +433,7 @@ h2{
     margin-top: 20px;
 }
 .social__item img {
-    margin-top: 20px;
+    margin-top: 10px;
     max-width: 50px;
     height: auto;
 }
