@@ -1,0 +1,32 @@
+{% load static %}
+{% include 'etender/html/header.html' %}
+<link rel="stylesheet" type="text/css" href="{% static 'etender/css/tender_detail.css' %}">
+
+<div class="container">
+    <section class="tender-detail-section">
+        <h2>Детали тендера</h2>
+        <div class="content">
+            <h3>{{ tender.purchase_name }}</h3>
+            <p>Метод закупки:<br> {{ tender.purchase_method }}</p>
+            <p>Номер закупки:<br> {{ tender.purchase_number }}</p>
+            <p>Вид закупок:<br> {{ tender.purchase_type }}</p>
+            <p>Наименование организации:<br> {{ tender.organization_name }}</p>
+            <p>Планируемая сумма:<br> {{ tender.planned_amount }}</p>
+            <p>Дата опубликования:<br> {{ tender.publication_date }}</p>
+            <p>Срок подачи предложений поставщиков:<br> {{ tender.proposal_deadline }}</p>
+        </div>
+        {% if user.is_authenticated %}
+            {% if tender.user == user %}
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" name="edit_tender">Редактировать тендер</button>
+                    <button type="submit" name="delete_tender">Удалить тендер</button>
+                </form>
+            {% endif %}
+        {% endif %}
+
+
+    </section>
+</div>
+
+{% include 'etender/html/footer.html' %}

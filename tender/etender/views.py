@@ -7,7 +7,7 @@ from django.db.models import F, Q
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from etender.forms import TenderForm
 from etender.models import *
@@ -224,6 +224,30 @@ def add_tender(request):
         'registration_links': registration_links,
     }
     return render(request, 'etender/html/add_tender.html', context)
+
+
+@login_required
+def tender_detail(request, tender_id):
+    tender = get_object_or_404(Tender, id=tender_id)
+    if request.method == 'POST' and 'edit_tender' in request.POST:
+        if request.user == tender.user:
+            return redirect('tender_detail', tender_id=tender.id)
+        else:
+            return HttpResponse("У вас нет прав на редактирование этого тендера.")
+
+    elif request.method == 'POST' and 'delete_tender' in request.POST:
+        if request.user == tender.user:
+            return redirect('ads')
+        else:
+            return HttpResponse("У вас нет прав на удаление этого тендера.")
+
+    else:
+        context = {
+            'navigation_links': navigation_links,
+            'registration_links': registration_links,
+            'tender': tender,
+        }
+        return render(request, 'etender/html/tender_detail.html', context)
 
 
 @receiver(pre_save, sender=Tender)

@@ -10,6 +10,6 @@ urlpatterns = [
     path('add_tender/', add_tender, name='add_tender'),
     path('personal/', personal, name='personal'),
     path('edit_profile/', edit_profile, name='edit_profile'),
-
+    path('tender/<int:tender_id>/', tender_detail, name='tender_detail'),
 
 ]

@@ -1,0 +1,32 @@
+.tender-detail-section {
+    margin: 10% 0;
+}
+
+.tender-detail-section h2 {
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: #008cbb;
+}
+
+.tender-detail-section .content {
+    font-size: 18px;
+    color: #555;
+}
+
+.tender-detail-section .content h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.tender-detail-section .content p {
+    margin-bottom: 10px;
+}
+
+.content p{
+color:black;
+font-size:24px}
+
+footer {
+    text-align: center;
+    margin-top: 50px;
+}
