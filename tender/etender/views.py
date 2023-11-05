@@ -27,18 +27,18 @@ registration_links = [
 def index(request):
 
     clients1 = [
-        {'image': 'etender/img/skyline.png', 'alt': 'Client 1', 'title': 'Коммерческие закупки', 'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'},
-        {'image': 'etender/img/skyline.png', 'alt': 'Client 2', 'title': 'Коммерческие закупки', 'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'},
-        {'image': 'etender/img/skyline.png', 'alt': 'Client 3', 'title': 'Коммерческие закупки', 'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'},
-        {'image': 'etender/img/skyline.png', 'alt': 'Client 4', 'title': 'Коммерческие закупки', 'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'},
+        {'image': 'etender/img/section-1.png', 'alt': 'Client 1', 'title': 'Государственные закупки', 'text': 'Приобретение товаров и услуг государством для обеспечения прозрачности и эффективного использования бюджетных средств.'},
+        {'image': 'etender/img/section-3.png', 'alt': 'Client 2', 'title': 'Коммерческие закупки', 'text': 'Покупка товаров и услуг компаниями для удовлетворения своих потребностей и целей.'},
+        {'image': 'etender/img/section-4.png', 'alt': 'Client 3', 'title': 'Аукцион', 'text': 'Способ продажи, при котором участники предлагают цены в конкурентной борьбе за товар или услугу.'},
+        {'image': 'etender/img/section-2.png', 'alt': 'Client 4', 'title': 'Продажа и Аренда имущества', 'text': 'Данные о сделках, включая объекты, стороны, условия и результаты сделок с недвижимостью и движимостью.'},
     ]
     auction_images = [
         {'url': 'etender/img/auc-icon.png', 'alt': 'Image 1', 'text': 'Регистрация на E-Tender'},
-        {'url': 'etender/img/auc-icon.png', 'alt': 'Image 1', 'text': 'Регистрация на E-Tender'},
-        {'url': 'etender/img/auc-icon.png', 'alt': 'Image 1', 'text': 'Регистрация на E-Tender'},
-        {'url': 'etender/img/auc-icon2.png', 'alt': 'Image 2', 'text': 'Регистрация на E-Tender'},
-        {'url': 'etender/img/auc-icon2.png', 'alt': 'Image 2', 'text': 'Регистрация на E-Tender'},
-        {'url': 'etender/img/auc-icon2.png', 'alt': 'Image 2', 'text': 'Регистрация на E-Tender'},
+        {'url': 'etender/img/auc-icon.png', 'alt': 'Image 1', 'text': 'Объявление аукциона'},
+        {'url': 'etender/img/auc-icon.png', 'alt': 'Image 1', 'text': 'Регистрация заявки'},
+        {'url': 'etender/img/auc-icon2.png', 'alt': 'Image 2', 'text': 'Проведение закупок'},
+        {'url': 'etender/img/auc-icon2.png', 'alt': 'Image 2', 'text': 'Подписание протокола'},
+        {'url': 'etender/img/auc-icon2.png', 'alt': 'Image 2', 'text': 'Заключение договора'},
     ]
 
     tender_services = [
@@ -64,14 +64,14 @@ def index(request):
     ]
 
     clients = [
-        {'image': 'etender/img/alfa.png', 'alt': 'Client 1'},
-        {'image': 'etender/img/alfa.png', 'alt': 'Client 2'},
-        {'image': 'etender/img/alfa.png', 'alt': 'Client 3'},
-        {'image': 'etender/img/alfa.png', 'alt': 'Client 4'},
-        {'image': 'etender/img/IUK.png', 'alt': 'Client 5'},
-        {'image': 'etender/img/IUK.png', 'alt': 'Client 6'},
-        {'image': 'etender/img/IUK.png', 'alt': 'Client 7'},
-        {'image': 'etender/img/IUK.png', 'alt': 'Client 8'},
+        {'image': 'etender/img/logo/alfa.png', 'alt': 'Client 1'},
+        {'image': 'etender/img/logo/alfa.png', 'alt': 'Client 2'},
+        {'image': 'etender/img/logo/alfa.png', 'alt': 'Client 3'},
+        {'image': 'etender/img/logo/alfa.png', 'alt': 'Client 4'},
+        {'image': 'etender/img/logo/IUK.png', 'alt': 'Client 5'},
+        {'image': 'etender/img/logo/IUK.png', 'alt': 'Client 6'},
+        {'image': 'etender/img/logo/IUK.png', 'alt': 'Client 7'},
+        {'image': 'etender/img/logo/IUK.png', 'alt': 'Client 8'},
     ]
 
     context = {
@@ -89,7 +89,7 @@ def index(request):
     return render(request, 'etender/html/index.html', context)
 
 
-from django.contrib.auth import authenticate, login
+
 
 
 def registration(request):
