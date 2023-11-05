@@ -52,7 +52,7 @@ def index(request):
         {'url': '#', 'title': 'Центральное казначейство МФ КР'},
         {'url': '#', 'title': 'Государственное агентство антимонопольного регулирования при ПКР'},
         {'url': '#', 'title': 'Министерство финансов Кыргызской Республики'},
-        {'url': '#', 'title': 'Министерство финансов Кыргызской Республики'},
+        {'url': '#', 'title': 'Торгово-промышленная палата Кыргызской Республики'},
     ]
 
     links_buttons = [
@@ -249,7 +249,25 @@ def tender_detail(request, tender_id):
         }
         return render(request, 'etender/html/tender_detail.html', context)
 
+def edit_tender(request, tender_id):
+    if request.method == 'GET' and request.is_ajax():
+        try:
+            tender = Tender.objects.get(pk=tender_id)
+            tender.purchase_name = 'Новое название'
+            tender.save()
+            return JsonResponse({'success': True, 'tender': {'purchase_name': tender.purchase_name}})
+        except Tender.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Тендер не найден'})
+    else:
+        return JsonResponse({'success': False, 'error': 'Неправильный запрос'})
 
+def delete_tender(request, tender_id):
+    if request.method == 'POST' and request.is_ajax():
+        tender = get_object_or_404(Tender, pk=tender_id, user=request.user)
+        tender.delete()
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'success': False, 'error': 'Неправильный запрос'})
 @receiver(pre_save, sender=Tender)
 def assign_user(sender, instance, **kwargs):
     if not instance.user:

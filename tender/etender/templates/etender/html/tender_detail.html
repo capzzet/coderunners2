@@ -19,14 +19,65 @@
             {% if tender.user == user %}
                 <form method="post">
                     {% csrf_token %}
-                    <button type="submit" name="edit_tender">Редактировать тендер</button>
-                    <button type="submit" name="delete_tender">Удалить тендер</button>
+                    <button class="edit-tender-btn" data-tender-id="{{ tender.id }}">Редактировать тендер</button>
+                    <button class="delete-tender-btn" data-tender-id="{{ tender.id }}">Удалить тендер</button>
+
                 </form>
             {% endif %}
         {% endif %}
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var editBtn = document.querySelector('.edit-tender-btn');
 
+    editBtn.addEventListener('click', function() {
+        var tenderId = this.dataset.tenderId;
+        var editUrl = '{% url "edit_tender" 0 %}'.replace('0', tenderId);
+
+        fetch(editUrl, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+            } else {
+            }
+        });
+    });
+});
+
+    document.addEventListener('DOMContentLoaded', function() {
+    var deleteBtn = document.querySelector('.delete-tender-btn');
+
+    deleteBtn.addEventListener('click', function() {
+        var tenderId = this.dataset.tenderId;
+        var deleteUrl = '{% url "delete_tender" 0 %}'.replace('0', tenderId);
+
+        fetch(deleteUrl, {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+
+                window.location.href = '{% url "ads" %}';
+            } else {
+
+            }
+        });
+    });
+});
+</script>
     </section>
 </div>
+
 
 {% include 'etender/html/footer.html' %}

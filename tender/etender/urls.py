@@ -11,5 +11,8 @@ urlpatterns = [
     path('personal/', personal, name='personal'),
     path('edit_profile/', edit_profile, name='edit_profile'),
     path('tender/<int:tender_id>/', tender_detail, name='tender_detail'),
+    path('edit_tender/<int:tender_id>/', edit_tender, name='edit_tender'),
+    path('delete_tender/<int:tender_id>/', delete_tender, name='delete_tender')
+
 
 ]
