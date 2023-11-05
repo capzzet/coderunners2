@@ -10,7 +10,16 @@
             <a href="{% url 'edit_profile' %}" class="third__btn">Редактировать профиль</a>
         </div>
         <div class="tenders-section">
-            <h3>Ваши тендеры</h3>
+             <h3>Ваши тендеры</h3>
+                <ul>
+                    {% for tender in user_tenders %}
+                        <li>
+                            <a href="{% url 'ads' %}#{{ tender.id }}">
+                                {{ tender.purchase_name }} - {{ tender.purchase_method }} - {{ tender.planned_amount }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
         </div>
         <div class="actions-history">
             <h3>История действий</h3>

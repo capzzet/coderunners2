@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
 from django.db.models import F, Q
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
@@ -210,6 +212,7 @@ def add_tender(request):
                 publication_date=form.cleaned_data['publication_date'],
                 proposal_deadline=form.cleaned_data['proposal_deadline']
             )
+            tender.user = request.user
             tender.save()
             return redirect('ads')
     else:
@@ -222,10 +225,17 @@ def add_tender(request):
     }
     return render(request, 'etender/html/add_tender.html', context)
 
+
+@receiver(pre_save, sender=Tender)
+def assign_user(sender, instance, **kwargs):
+    if not instance.user:
+        instance.user = User.objects.get(username='root')
 def personal(request):
+    user_tenders = Tender.objects.filter(user=request.user)
     context = {
         'navigation_links': navigation_links,
         'registration_links': registration_links,
+        'user_tenders': user_tenders
     }
     return render(request, 'etender/html/personal.html', context)
 def edit_profile(request):
